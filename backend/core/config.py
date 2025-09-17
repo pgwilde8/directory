@@ -10,7 +10,7 @@ class Settings(BaseSettings):
     """Application settings"""
     
     # App Configuration
-    APP_NAME: str = "Directory"
+    APP_NAME: str = "Business Directory"
     APP_VERSION: str = "1.0.0"
     DEBUG: bool = False
     HOST: str = "0.0.0.0"
@@ -21,10 +21,24 @@ class Settings(BaseSettings):
     
     # Security
     SECRET_KEY: str = "Ege4aZ0BP6JCKnBJ7OoUnLk8tW_EIDU2qSll5ntUfFE"
+    JWT_ALGORITHM: str = "HS256"
+    JWT_ACCESS_TOKEN_EXPIRE_MINUTES: int = 30
+    JWT_REFRESH_TOKEN_EXPIRE_DAYS: int = 7
     
-    # NewsAPI Configuration
-    NEWSAPI_KEY: str = "d7a060516f7a43fa9638b44b6c570dbc"
-    NEWSAPI_BASE_URL: str = "https://newsapi.org/v2"
+    # Google OAuth Configuration
+    GOOGLE_CLIENT_ID: str = ""
+    GOOGLE_CLIENT_SECRET: str = ""
+    GOOGLE_REDIRECT_URI: str = "http://localhost:9178/api/auth/google/callback"
+    
+    # Business Directory Settings
+    MAX_BUSINESS_LISTINGS_PER_USER: int = 10
+    BUSINESS_APPROVAL_REQUIRED: bool = True
+    ALLOWED_BUSINESS_CATEGORIES: str = "restaurant,retail,service,healthcare,education,entertainment,automotive,professional"
+    
+    # File Upload Configuration
+    MAX_FILE_SIZE_MB: int = 10
+    ALLOWED_FILE_TYPES: str = "jpg,jpeg,png,pdf,doc,docx"
+    UPLOAD_DIRECTORY: str = "uploads/"
     
     # Logging
     LOG_LEVEL: str = "INFO"
@@ -34,11 +48,14 @@ class Settings(BaseSettings):
     RATE_LIMIT_PER_MINUTE: int = 60
     RATE_LIMIT_PER_HOUR: int = 1000
     
-    # Data Collection
-    COLLECTION_INTERVAL_MINUTES: int = 60
-    MAX_ARTICLES_PER_REQUEST: int = 100
+    # Email Configuration
+    SMTP_HOST: str = "smtp.gmail.com"
+    SMTP_PORT: int = 587
+    SMTP_USERNAME: str = ""
+    SMTP_PASSWORD: str = ""
+    EMAIL_FROM: str = "noreply@yourdomain.com"
     
-    # Authentication
+    # Legacy Admin Authentication (for system admin)
     ADMIN_USERNAME: str = "admin"
     ADMIN_PASSWORD: str = "admin123"
     SESSION_TIMEOUT_HOURS: int = 24

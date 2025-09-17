@@ -9,6 +9,9 @@ import enum
 
 Base = declarative_base()
 
+# Import business models to make them available for Alembic
+from database.business_models import *
+
 
 class SeverityLevel(enum.Enum):
     """Crime severity levels"""

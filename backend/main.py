@@ -11,14 +11,14 @@ from datetime import datetime, timedelta
 import pytz
 
 from database import get_db
-from backend.routes import incidents, auth, admin, data_collection
+from backend.routes import incidents, auth, admin, data_collection, google_auth, businesses
 from backend.middleware import TimingMiddleware, AuthMiddleware
 from backend.core.config import settings
 
 # Create FastAPI app
 app = FastAPI(
-    title="Directory API",
-    description="Directory management system",
+    title="Business Directory API",
+    description="Business Directory management system with Google OAuth authentication",
     version="1.0.0",
     docs_url="/api/docs" if settings.DEBUG else None,
     redoc_url="/api/redoc" if settings.DEBUG else None
@@ -44,6 +44,8 @@ if os.path.exists("frontend/static"):
 
 # Include routers
 app.include_router(auth.router, prefix="/api/auth", tags=["authentication"])
+app.include_router(google_auth.router, prefix="/api/auth", tags=["google-auth"])
+app.include_router(businesses.router, prefix="/api/businesses", tags=["businesses"])
 app.include_router(incidents.router, prefix="/api/incidents", tags=["incidents"])
 app.include_router(admin.router, prefix="/api/admin", tags=["admin"])
 app.include_router(data_collection.router, prefix="/api/data", tags=["data-collection"])
@@ -53,11 +55,24 @@ app.include_router(data_collection.router, prefix="/api/data", tags=["data-colle
 async def root():
     """Serve the main public dashboard"""
     try:
-        with open("frontend/index.html", "r") as f:
+        with open("frontend/login.html", "r") as f:
             return HTMLResponse(content=f.read())
     except FileNotFoundError:
         return HTMLResponse(
-            content="<h1>Directory</h1><p>Dashboard coming soon...</p>",
+            content="<h1>Business Directory</h1><p>Welcome to our business directory!</p>",
+            status_code=200
+        )
+
+
+@app.get("/dashboard", response_class=HTMLResponse)
+async def dashboard():
+    """Serve the business owner dashboard"""
+    try:
+        with open("frontend/dashboard.html", "r") as f:
+            return HTMLResponse(content=f.read())
+    except FileNotFoundError:
+        return HTMLResponse(
+            content="<h1>Dashboard</h1><p>Dashboard coming soon...</p>",
             status_code=200
         )
 
