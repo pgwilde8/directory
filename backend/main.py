@@ -10,7 +10,7 @@ import os
 from datetime import datetime, timedelta
 import pytz
 
-from database import get_db
+from database.database import get_db
 from backend.routes import incidents, auth, admin, data_collection, google_auth, businesses
 from backend.middleware import TimingMiddleware, AuthMiddleware
 from backend.core.config import settings
@@ -55,7 +55,7 @@ app.include_router(data_collection.router, prefix="/api/data", tags=["data-colle
 async def root():
     """Serve the main public dashboard"""
     try:
-        with open("frontend/login.html", "r") as f:
+        with open("frontend/login.html", "r" , encoding="utf-8") as f:
             return HTMLResponse(content=f.read())
     except FileNotFoundError:
         return HTMLResponse(
@@ -68,7 +68,7 @@ async def root():
 async def dashboard():
     """Serve the business owner dashboard"""
     try:
-        with open("frontend/dashboard.html", "r") as f:
+        with open("frontend/dashboard.html", "r" , encoding="utf-8") as f:
             return HTMLResponse(content=f.read())
     except FileNotFoundError:
         return HTMLResponse(
@@ -80,7 +80,7 @@ async def dashboard():
 async def admin_dashboard():
     """Serve the admin dashboard"""
     try:
-        with open("frontend/admin.html", "r") as f:
+        with open("frontend/admin.html", "r", encoding="utf-8") as f:
             return HTMLResponse(content=f.read())
     except FileNotFoundError:
         return HTMLResponse(

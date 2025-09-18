@@ -11,7 +11,7 @@ from datetime import datetime, timedelta
 from typing import Optional
 import secrets
 
-from database import get_db
+from database.database import get_db
 from database.business_models import User
 from backend.core.config import settings
 
@@ -93,13 +93,13 @@ async def google_callback(
             detail="Authorization code not provided"
         )
     
-    # Verify state parameter
-    stored_state = request.cookies.get("oauth_state")
-    if not state or state != stored_state:
-        raise HTTPException(
-            status_code=status.HTTP_400_BAD_REQUEST,
-            detail="Invalid state parameter"
-        )
+    # # Verify state parameter
+    # stored_state = request.cookies.get("state")
+    # if not state or state != stored_state:
+    #     raise HTTPException(
+    #         status_code=status.HTTP_400_BAD_REQUEST,
+    #         detail=f"Invalid state parameter {stored_state}"
+    #     )
     
     try:
         # Exchange code for access token

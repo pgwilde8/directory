@@ -141,3 +141,4 @@ class SystemStats(Base):
     api_calls_made = Column(Integer, default=0)
     api_errors = Column(Integer, default=0)
     created_at = Column(DateTime, server_default=func.now())
+
