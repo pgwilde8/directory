@@ -10,8 +10,10 @@ import os
 from datetime import datetime, timedelta
 import pytz
 
+from fastapi.templating import Jinja2Templates
+
 from database.database import get_db
-from backend.routes import incidents, auth, admin, data_collection, google_auth, businesses
+from backend.routes import incidents, auth, admin, data_collection, google_auth, businesses,pages
 from backend.middleware import TimingMiddleware, AuthMiddleware
 from backend.core.config import settings
 
@@ -49,44 +51,44 @@ app.include_router(businesses.router, prefix="/api/businesses", tags=["businesse
 app.include_router(incidents.router, prefix="/api/incidents", tags=["incidents"])
 app.include_router(admin.router, prefix="/api/admin", tags=["admin"])
 app.include_router(data_collection.router, prefix="/api/data", tags=["data-collection"])
+app.include_router(pages.router)
+
+# @app.get("/", response_class=HTMLResponse)
+# async def root():
+#     """Serve the main public dashboard"""
+#     try:
+#         with open("frontend/login.html", "r" , encoding="utf-8") as f:
+#             return HTMLResponse(content=f.read())
+#     except FileNotFoundError:
+#         return HTMLResponse(
+#             content="<h1>Business Directory</h1><p>Welcome to our business directory!</p>",
+#             status_code=200
+#         )
 
 
-@app.get("/", response_class=HTMLResponse)
-async def root():
-    """Serve the main public dashboard"""
-    try:
-        with open("frontend/login.html", "r" , encoding="utf-8") as f:
-            return HTMLResponse(content=f.read())
-    except FileNotFoundError:
-        return HTMLResponse(
-            content="<h1>Business Directory</h1><p>Welcome to our business directory!</p>",
-            status_code=200
-        )
+# @app.get("/dashboard", response_class=HTMLResponse)
+# async def dashboard():
+#     """Serve the business owner dashboard"""
+#     try:
+#         with open("frontend/dashboard.html", "r" , encoding="utf-8") as f:
+#             return HTMLResponse(content=f.read())
+#     except FileNotFoundError:
+#         return HTMLResponse(
+#             content="<h1>Dashboard</h1><p>Dashboard coming soon...</p>",
+#             status_code=200
+#         )
 
-
-@app.get("/dashboard", response_class=HTMLResponse)
-async def dashboard():
-    """Serve the business owner dashboard"""
-    try:
-        with open("frontend/dashboard.html", "r" , encoding="utf-8") as f:
-            return HTMLResponse(content=f.read())
-    except FileNotFoundError:
-        return HTMLResponse(
-            content="<h1>Dashboard</h1><p>Dashboard coming soon...</p>",
-            status_code=200
-        )
-
-@app.get("/admin.html", response_class=HTMLResponse)
-async def admin_dashboard():
-    """Serve the admin dashboard"""
-    try:
-        with open("frontend/admin.html", "r", encoding="utf-8") as f:
-            return HTMLResponse(content=f.read())
-    except FileNotFoundError:
-        return HTMLResponse(
-            content="<h1>Admin Dashboard</h1><p>Admin panel coming soon...</p>",
-            status_code=200
-        )
+# @app.get("/admin.html", response_class=HTMLResponse)
+# async def admin_dashboard():
+#     """Serve the admin dashboard"""
+#     try:
+#         with open("frontend/admin.html", "r", encoding="utf-8") as f:
+#             return HTMLResponse(content=f.read())
+#     except FileNotFoundError:
+#         return HTMLResponse(
+#             content="<h1>Admin Dashboard</h1><p>Admin panel coming soon...</p>",
+#             status_code=200
+#         )
 
 
 @app.get("/api/health")
