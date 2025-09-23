@@ -1,5 +1,5 @@
 """
-FastAPI main application for Directory
+FastAPI main application for Directorys
 """
 from fastapi import FastAPI, Depends, HTTPException, Request
 from fastapi.middleware.cors import CORSMiddleware
